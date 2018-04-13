@@ -6,7 +6,7 @@ class FotoHeader extends Component {
         return (
             <header className="foto-header">
                 <figure className="foto-usuario">
-                    <img src="https://instagram.fcgh9-1.fna.fbcdn.net/vp/6170cb0de16a8ec01b9760e19a69b600/5B2B15DA/t51.2885-19/10518184_411719108989377_1218968099_a.jpg" alt="foto do usuario" />
+                    <img src="https://instagram.fcgh5-1.fna.fbcdn.net/vp/27db352236ac366c829fb84c9c4a58ce/5B75E5A0/t51.2885-19/s150x150/28763591_116100165895442_7796318781382328320_n.jpg" alt="foto do usuario" />
                     <figcaption className="foto-usuario">
                         <Link to={`/timeline/${this.props.foto.username}`}>{this.props.foto.username}</Link>
                     </figcaption>
