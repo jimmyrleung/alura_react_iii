@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Foto from './Foto';
 import PubSub from 'pubsub-js';
+import TimelineApi from '../apis/TimelineApi';
 
 // Container Component
 export default class Timeline extends Component {
@@ -20,11 +21,8 @@ export default class Timeline extends Component {
     }
 
     componentWillMount() {
-        this.props.store.subscribeLikes(fotos => this.setState({ fotos }));
-
-        this.props.store.subscribeComentarios(fotos => this.setState({ fotos }));
-
-        PubSub.subscribe("filtrar-timeline", (topico, data) => this.carregaTimeLine(null, `?p=${data.text}`));
+        // getStore retorna o ultimo valor retornado pela função redutora
+        this.props.store.subscribe(() => this.setState({ fotos: this.props.store.getState() }));
     };
 
     componentDidMount() {
@@ -32,15 +30,15 @@ export default class Timeline extends Component {
     };
 
     carregaTimeLine() {
-        this.props.store.getListaFotos(this.username, fotos => this.setState({ fotos }));
+        this.props.store.dispatch(TimelineApi.getListaFotos(this.username, this.props.store));
     };
 
     like(fotoId) {
-        this.props.store.like(fotoId);
+        this.props.store.dispatch(TimelineApi.like(fotoId));
     };
 
     comentar(fotoId, comentario) {
-        this.props.store.comentar(fotoId, comentario);
+        this.props.store.dispatch(TimelineApi.comentar(fotoId, comentario));
     };
 
     render() {

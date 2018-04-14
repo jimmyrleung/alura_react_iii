@@ -41,7 +41,7 @@ class FotoInfo extends Component {
                     {
                         this.props.foto.comments.map(comentario =>
                             <li className="comentario">
-                                <Link key={`${comentario.username}${comentario.text}`} className="foto-info-autor" to={`/timeline/${comentario.username}`}>{comentario.username}</Link>
+                                <Link key={`${comentario.username}-${comentario.text}`} className="foto-info-autor" to={`/timeline/${comentario.username}`}>{comentario.username}</Link>
                                 {" " + comentario.text}
                             </li>
                         )

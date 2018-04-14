@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import Header from './Components/Header';
 import TimeLine from './Components/TimeLine';
-import TimeLineStore from './stores/TimeLineStore';
+import { timeline } from './reducers/timeline';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 
-const timelineStore = new TimeLineStore([]);
+
+// No flux, podemos e provavelmente teremos várias stores
+// const timelineStore = new TimeLineStore([]);
+
+// No redux temos uma única store, ou seja, dados centralizados
+// A store recebe uma função redutora que será executada
+const store = createStore(timeline, applyMiddleware(thunkMiddleware));
 
 class App extends Component {
   // Podemos acessar as props no próprio constructor
@@ -19,7 +27,7 @@ class App extends Component {
       <div id="root">
         <div className="main">
           <Header />
-          <TimeLine params={this.props.match.params} store={timelineStore} />
+          <TimeLine params={this.props.match.params} store={store} />
         </div>
       </div>
     );
