@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Foto from './Foto';
-import PubSub from 'pubsub-js';
 import TimelineApi from '../apis/TimelineApi';
 
 // Container Component
@@ -22,7 +21,7 @@ export default class Timeline extends Component {
 
     componentWillMount() {
         // getStore retorna o ultimo valor retornado pela função redutora
-        this.props.store.subscribe(() => this.setState({ fotos: this.props.store.getState() }));
+        this.props.store.subscribe(() => this.setState({ fotos: this.props.store.getState().timeline }));
     };
 
     componentDidMount() {
