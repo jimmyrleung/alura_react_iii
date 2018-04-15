@@ -21,6 +21,7 @@ const Request = {
                         resolve(responseBody || null);
                     }
                     else {
+                        if (responseStatus === 401) localStorage.removeItem("auth-token");
                         reject(`Request to ${url} failed with status ${responseStatus}`);
                     }
                 })
