@@ -15,8 +15,9 @@ export default class Login extends Component {
         Request.send(url, "POST", false, { username: this.username.value, password: this.password.value })
             .then(response => {
                 console.log(response.token);
+                console.log(this.props);
                 localStorage.setItem("auth-token", response.token);
-                this.props.history.push("/timeline");
+                return this.props.history.push("/timeline");
             })
             .catch(err => this.setState({ msg: (err.message ? err.message : "Não foi possível fazer login.") }));
     };

@@ -9,6 +9,23 @@ import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Login from './Components/Login';
 import Logout from './Components/Logout';
+import { Provider } from 'react-redux';
+
+import { timeline } from './reducers/timeline';
+import { header } from './reducers/header';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+
+// No flux, podemos e provavelmente teremos várias stores
+// const timelineStore = new TimeLineStore([]);
+
+// A store do redux recebe uma única função redutora. Para resolver esse problema,
+// podemos utilizar o módulo 'combineReducers' do próprio redux
+const reducers = combineReducers({ timeline, header });
+
+// No redux temos uma única store, ou seja, dados centralizados
+// A store recebe uma função redutora que será executada
+const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 function AuthenticatedRoute({ component: Component, authed, ...rest }) {
     console.log(...rest);
@@ -38,17 +55,19 @@ function checkAuthorization() {
 
 //ReactDOM.render(<App />, document.getElementById('root'));
 ReactDOM.render(
-    <Router>
-        <Switch>{/* Dentro do switch declaramos nossas rotas. O switch garante que apenas uma delas será acionada. */}
-            <LoginRoute authed={checkAuthorization()} exact path="/" component={Login} />
+    <Provider store={store}>
+        <Router>
+            <Switch>{/* Dentro do switch declaramos nossas rotas. O switch garante que apenas uma delas será acionada. */}
+                <LoginRoute authed={checkAuthorization()} exact path="/" component={Login} />
 
-            {/*TODO: Estrategia para timeline publica. Exemplo: para /timeline o usuário deve estar logado 
+                {/*TODO: Estrategia para timeline publica. Exemplo: para /timeline o usuário deve estar logado 
                 mas para /timeline/jimmyrl deve-se acessar normalmente*/}
-            <AuthenticatedRoute authed={checkAuthorization()} path="/timeline/:username?" component={App} />
-            
-            <AuthenticatedRoute authed={checkAuthorization()} path="/logout" component={Logout} />
-        </Switch>
-    </Router>
+                <AuthenticatedRoute authed={checkAuthorization()} path="/timeline/:username?" component={App} />
+
+                <AuthenticatedRoute authed={checkAuthorization()} path="/logout" component={Logout} />
+            </Switch>
+        </Router>
+    </Provider>
     , document.getElementById('root'));
 
 registerServiceWorker();

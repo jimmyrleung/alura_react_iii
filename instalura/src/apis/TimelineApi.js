@@ -3,7 +3,7 @@ import { comentario, like, listagem, notificacao } from '../actions/actionCreato
 
 export default class TimeLineApi {
     /* Likes */
-    static getListaFotos(username, store) {
+    static getListaFotos(username) {
         let url = `http://localhost:3002/api/photos${username ? `/${username}` : ""}`;
         return dispatch => {
             Request.send(url, "GET", true, null)

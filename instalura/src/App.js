@@ -1,22 +1,7 @@
 import React, { Component } from 'react';
 import Header from './Components/Header';
 import TimeLine from './Components/TimeLine';
-import { timeline } from './reducers/timeline';
-import { header } from './reducers/header';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-
-
-// No flux, podemos e provavelmente teremos várias stores
-// const timelineStore = new TimeLineStore([]);
-
-// A store do redux recebe uma única função redutora. Para resolver esse problema,
-// podemos utilizar o módulo 'combineReducers' do próprio redux
-const reducers = combineReducers({ timeline, header });
-
-// No redux temos uma única store, ou seja, dados centralizados
-// A store recebe uma função redutora que será executada
-const store = createStore(reducers, applyMiddleware(thunkMiddleware));
+import PropTypes from 'prop-types';
 
 class App extends Component {
   // Podemos acessar as props no próprio constructor
@@ -31,12 +16,16 @@ class App extends Component {
     return (
       <div id="root">
         <div className="main">
-          <Header store={store} />
-          <TimeLine params={this.props.match.params} store={store} />
+          <Header store={this.context.store} />
+          <TimeLine params={this.props.match.params} />
         </div>
       </div>
     );
   }
 }
+
+App.contextTypes = {
+  store: PropTypes.object.isRequired
+};
 
 export default App;
